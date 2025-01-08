@@ -7,4 +7,4 @@ spec:
   valuesContent: |-
     dashboard:
       enabled: true
-      domain: "localhost"
+      domain: "grafana.example.com"
