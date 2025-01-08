@@ -1,0 +1,65 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    additionalArguments:
+      - "--api"
+      - "--api.dashboard=true"
+      - "--api.insecure=true"
+    ports:
+      traefik:
+        expose: true
+    providers:
+      kubernetesCRD:
+        allowCrossNamespace: true
+
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: traefik
+#   namespace: kube-system
+# spec:
+#   template:
+#     spec:
+#       containers:
+#         - name: traefik
+#           image: traefik:v2.10
+#           args:
+#             - "--api.insecure=true"
+#             - "--api.dashboard=true"
+#             - "--entrypoints.web.address=:8089"
+#             - "--entrypoints.websecure.address=:5443"
+
+
+# # apiVersion: helm.cattle.io/v1
+# # kind: HelmChartConfig
+# # metadata:
+# #   name: traefik
+# #   namespace: kube-system
+# # spec:
+# #   valuesContent: |-
+# #     additionalArguments:
+# #       - "--api"
+# #       - "--api.dashboard=true"
+# #       - "--api.insecure=true"
+# #       - "--log.level=DEBUG"
+# #     ports:
+# #       traefik:
+# #         expose: true
+# #     providers:
+# #       kubernetesCRD:
+# #         allowCrossNamespace: true
+
+# # # apiVersion: helm.cattle.io/v1
+# # # kind: HelmChartConfig
+# # # metadata:
+# # #   name: traefik
+# # #   namespace: kube-system
+# # # spec:
+# # #   valuesContent: |-
+# # #     dashboard:
+# # #       enabled: true
+# # #       domain: "grafana.example.com"
