@@ -18,10 +18,10 @@ spec:
             name: kubeapps
             port:
               number: 80
-      # - path: /foo
-      #   pathType: Exact
-      #   backend:
-      #     service:
-      #       name:  service1
-      #       port:
-      #         number: 80
+      - path: /foo
+        pathType: Exact
+        backend:
+          service:
+            name:  service1
+            port:
+              number: 80
