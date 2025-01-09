@@ -10,7 +10,7 @@ metadata:
     traefik.ingress.kubernetes.io/router.tls: "true"
 spec:
   # ingressClassName: traefik  # Thay cho annotation "kubernetes.io/ingress.class"
-  ingressClassName: nginx  # traefik Hoặc "nginx" nếu dùng nginx-ingress
+  ingressClassName: traefik  # traefik Hoặc "nginx" nếu dùng nginx-ingress
   rules:
   - host: kb.mydomain.com
     http:
