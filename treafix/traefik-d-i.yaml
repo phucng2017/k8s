@@ -7,7 +7,7 @@ spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`traefik.local`) && PathPrefix(`/dashboard`)
+    - match: Host(`mydomain.com`) && PathPrefix(`/dashboard`)
       kind: Rule
       services:
         - name: traefik
