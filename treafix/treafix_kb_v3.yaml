@@ -4,14 +4,22 @@ metadata:
   name: kubernetes-dashboard-ingress
   namespace: kubernetes-dashboard
   annotations:
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"  # Đảm bảo backend là HTTPS
+    # Sử dụng Traefik Ingress Controller
+    "traefik.ingress.kubernetes.io/router.entrypoints": "web"
 spec:
-  ingressClassName: traefik  # Thay cho annotation "kubernetes.io/ingress.class"
+  # ingressClassName: traefik  # Thay cho annotation "kubernetes.io/ingress.class"
   rules:
   - host: kb.mydomain.com
     http:
       paths:
       - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: kubernetes-dashboard
+            port:
+              number: 443
+      - path: /kb
         pathType: Prefix
         backend:
           service:
