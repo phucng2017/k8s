@@ -3,9 +3,9 @@ kind: Ingress
 metadata:
   name: kubeapps-ingress
   namespace: kubeapps
-  # annotations:
-  #   # Sử dụng Traefik Ingress Controller
-  #   "traefik.ingress.kubernetes.io/router.entrypoints": "web"
+  annotations:
+    # Sử dụng Traefik Ingress Controller
+    "traefik.ingress.kubernetes.io/router.entrypoints": "web"
 spec:
   rules:
   - host: mydomain.com  # Thay "kubeapps.yourdomain.com" bằng tên miền thực tế
