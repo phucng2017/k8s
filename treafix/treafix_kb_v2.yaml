@@ -8,10 +8,10 @@ metadata:
 spec:
   ingressClassName: traefik  # Thay cho annotation "kubernetes.io/ingress.class"
   rules:
-  - host: mydomain.com
+  - host: kb.mydomain.com
     http:
       paths:
-      - path: /kb
+      - path: /
         pathType: Prefix
         backend:
           service:
