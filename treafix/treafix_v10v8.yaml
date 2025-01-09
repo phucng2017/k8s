@@ -32,3 +32,10 @@ spec:
             name: kubeapps
             port:
               number: 80
+      - path: /dashboard
+        pathType: Prefix
+        backend:
+          service:
+            name: traefik
+            port:
+              number: 80
