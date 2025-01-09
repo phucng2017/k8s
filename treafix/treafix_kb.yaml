@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kubernetes-dashboard-ingress
+  namespace: kubernetes-dashboard
+  annotations:
+    kubernetes.io/ingress.class: "traefik" # Hoặc "nginx" tùy ingress bạn dùng
+spec:
+  rules:
+  - host: mydomain.com
+    http:
+      paths:
+      - path: /kb
+        pathType: Prefix
+        backend:
+          service:
+            name: kubernetes-dashboard
+            port:
+              number: 443
