@@ -3,14 +3,14 @@ kind: Ingress
 metadata:
   name: kubernetes-dashboard-ingress
   namespace: kubernetes-dashboard
-  annotations:
+  # annotations:
     # Sử dụng Traefik Ingress Controller
     # "traefik.ingress.kubernetes.io/router.entrypoints": "web"
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"  # Quan trọng để giao tiếp HTTPS với backend
-    traefik.ingress.kubernetes.io/router.tls: "true"
+    # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"  # Quan trọng để giao tiếp HTTPS với backend
+    # traefik.ingress.kubernetes.io/router.tls: "true"
 spec:
   # ingressClassName: traefik  # Thay cho annotation "kubernetes.io/ingress.class"
-  ingressClassName: traefik  # traefik Hoặc "nginx" nếu dùng nginx-ingress
+  # ingressClassName: traefik  # traefik Hoặc "nginx" nếu dùng nginx-ingress
   rules:
   - host: kb.mydomain.com
     http:
@@ -21,15 +21,15 @@ spec:
           service:
             name: kubernetes-dashboard
             port:
-              number: 443
+              number: 80
       - path: /kb
         pathType: Prefix
         backend:
           service:
             name: kubernetes-dashboard
             port:
-              number: 443
-  tls:
-  - hosts:
-    - kb.mydomain.com
-    # secretName: dashboard-tls-secret
+              number: 80
+  # tls:
+  # - hosts:
+  #   - kb.mydomain.com
+  #   # secretName: dashboard-tls-secret
