@@ -32,3 +32,11 @@ spec:
             name: kubeapps
             port:
               number: 80
+      - path: /mon
+        pathType: Prefix
+        backend:
+          service:
+            name: prometheus-grafana
+            port:
+              number: 80
+      
