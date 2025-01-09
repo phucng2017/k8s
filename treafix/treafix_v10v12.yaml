@@ -39,4 +39,10 @@ spec:
             name: prometheus-grafana
             port:
               number: 80
-      
+      - path: /monpre
+        pathType: Prefix
+        backend:
+          service:
+            name: prometheus-grafana
+            port:
+              number: 80
