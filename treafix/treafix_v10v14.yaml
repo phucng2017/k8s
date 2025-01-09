@@ -46,10 +46,3 @@ spec:
             name: prometheus-grafana
             port:
               number: 80
-      - path: /kb
-        pathType: Prefix
-        backend:
-          service:
-            name: kubernetes-dashboard
-            port:
-              number: 443
