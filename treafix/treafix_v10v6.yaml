@@ -11,7 +11,7 @@ spec:
   - host: mydomain.com  # Thay "kubeapps.yourdomain.com" bằng tên miền thực tế
     http:
       paths:
-      - path: /
+      - path: /apps
         pathType: Exact
         backend:
           service:
