@@ -1,41 +1,17 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
 metadata:
-  name: kubeapps-ingress
-  namespace: kubeapps
-  annotations:
-    # Sử dụng Traefik Ingress Controller
-    "traefik.ingress.kubernetes.io/router.entrypoints": "web"
+  name: traefik
+  namespace: kube-system
 spec:
-  rules:
-  - host: mydomain.com  # Thay "kubeapps.yourdomain.com" bằng tên miền thực tế
-    http:
-      paths:
-      - path: /appsexactly
-        pathType: Exact
-        backend:
-          service:
-            name: kubeapps
-            port:
-              number: 80
-      - path: /app
-        pathType: Prefix
-        backend:
-          service:
-            name: kubeapps
-            port:
-              number: 80
-      - path: /kas
-        pathType: Prefix
-        backend:
-          service:
-            name: kubeapps
-            port:
-              number: 80
-      - path: /dashboard
-        pathType: Prefix
-        backend:
-          service:
-            name: traefik
-            port:
-              number: 80
+  valuesContent: |-
+    additionalArguments:
+      - "--api"
+      - "--api.dashboard=true"
+      - "--api.insecure=true"
+    ports:
+      traefik:
+        expose: true
+    providers:
+      kubernetesCRD:
+        allowCrossNamespace: true
