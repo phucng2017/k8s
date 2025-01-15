@@ -1,0 +1,30 @@
+
+#TRIEN KHAI:
+#helm install my-redis bitnami/redis -f k8s-helm-redis/values.yaml
+
+# custom-values.yaml
+auth:
+  password: "mysecretpassword"
+
+master:
+  persistence:
+    enabled: true
+    size: 1Gi
+
+replica:
+  replicaCount: 1
+  persistence:
+    enabled: true
+    size: 1Gi
+
+resources:
+  requests:
+    memory: "256Mi"
+    cpu: "250m"
+  limits:
+    memory: "512Mi"
+    cpu: "500m"
+
+service:
+  type: NodePort
+  port: 6379
