@@ -14,7 +14,11 @@ global:
 master:
   service:
     type: NodePort         # Chọn loại Service là NodePort
-    nodePort: 30001        # Port mà Redis master sẽ expose
+    ports:
+      redis: 6379
+    # nodePort: 30001        # Port mà Redis master sẽ expose
+    nodePorts:
+      redis: "300000"
   persistence:
     enabled: true
     size: 1Gi
@@ -35,8 +39,11 @@ resources:
 
 # service:
 #   type: NodePort                # Loại service là NodePort
-#   port: 6379                    # Cổng service Redis
-#   nodePort: 30000
-
+#   # port: 6379                    # Cổng service Redis
+#   # nodePort: 30000
+#   ports:
+#     redis: 6379
+#   nodePorts:
+#       redis: "300000"
 
 
