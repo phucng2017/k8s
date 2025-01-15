@@ -1,3 +1,5 @@
+#Link
+#https://artifacthub.io/packages/helm/bitnami/redis
 
 #TRIEN KHAI:
 #helm install my-redis bitnami/redis -f https://raw.githubusercontent.com/phucng2017/k8s/refs/heads/main/k8s-helm-redis/values.yaml
@@ -5,7 +7,9 @@
 #UNINSTALL
 #helm uninstall my-redis
 
-# custom-values.yaml
+#==================================================
+# values_v7.yaml
+
 auth:
   password: "mysecretpassword"
 
