@@ -7,7 +7,14 @@
 auth:
   password: "mysecretpassword"
 
+global:
+  redis:
+    password: "mysecretpassword" # Mật khẩu cho Redis (bạn có thể chỉnh sửa)
+
 master:
+  service:
+    type: NodePort         # Chọn loại Service là NodePort
+    nodePort: 30001        # Port mà Redis master sẽ expose
   persistence:
     enabled: true
     size: 1Gi
@@ -26,7 +33,10 @@ resources:
     memory: "512Mi"
     cpu: "500m"
 
-service:
-  type: NodePort                # Loại service là NodePort
-  port: 6379                    # Cổng service Redis
-  nodePort: 30000
+# service:
+#   type: NodePort                # Loại service là NodePort
+#   port: 6379                    # Cổng service Redis
+#   nodePort: 30000
+
+
+
