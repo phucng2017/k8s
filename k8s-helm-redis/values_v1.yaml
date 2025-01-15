@@ -27,5 +27,6 @@ resources:
     cpu: "500m"
 
 service:
-  type: NodePort
-  # port: 6379
+  type: NodePort                # Loại service là NodePort
+  port: 6379                    # Cổng service Redis
+  nodePort: 30000  
