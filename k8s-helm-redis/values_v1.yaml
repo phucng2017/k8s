@@ -1,6 +1,7 @@
 
 #TRIEN KHAI:
-#helm install my-redis bitnami/redis -f k8s-helm-redis/values.yaml
+#helm install my-redis bitnami/redis -f https://raw.githubusercontent.com/phucng2017/k8s/refs/heads/main/k8s-helm-redis/values.yaml
+
 
 # custom-values.yaml
 auth:
@@ -27,4 +28,4 @@ resources:
 
 service:
   type: NodePort
-  port: 6379
+  # port: 6379
