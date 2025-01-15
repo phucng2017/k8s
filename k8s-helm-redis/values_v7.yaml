@@ -2,6 +2,8 @@
 #TRIEN KHAI:
 #helm install my-redis bitnami/redis -f https://raw.githubusercontent.com/phucng2017/k8s/refs/heads/main/k8s-helm-redis/values.yaml
 
+#UNINSTALL
+#helm uninstall my-redis
 
 # custom-values.yaml
 auth:
@@ -23,19 +25,28 @@ master:
     enabled: true
     size: 1Gi
 
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+
 replica:
   replicaCount: 1
   persistence:
     enabled: true
     size: 1Gi
+    
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
 
-resources:
-  requests:
-    memory: "256Mi"
-    cpu: "250m"
-  limits:
-    memory: "512Mi"
-    cpu: "500m"
 
 # service:
 #   type: NodePort                # Loại service là NodePort
