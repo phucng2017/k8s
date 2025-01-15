@@ -29,4 +29,4 @@ resources:
 service:
   type: NodePort                # Loại service là NodePort
   port: 6379                    # Cổng service Redis
-  nodePort: 30000  
+  nodePort: 30000
