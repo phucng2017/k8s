@@ -1,3 +1,46 @@
+
+
+# helm install my-release -f https://raw.githubusercontent.com/phucng2017/k8s/refs/heads/main/k8s-helm-kafka/values_v1.yaml oci://registry-1.docker.io/bitnamicharts/kafka
+# helm install my-release oci://registry-1.docker.io/bitnamicharts/kafka
+# helm uninstall my-release
+# kubectl get svc
+# kubectl get pod
+
+# ==================
+# export KUBECONFIG=~/.kube/config
+# mkdir ~/.kube 2> /dev/null
+# sudo k3s kubectl config view --raw > "$KUBECONFIG"
+# chmod 600 "$KUBECONFIG"
+
+
+
+
+# To create a pod that you can use as a Kafka client run the following commands:
+
+#     kubectl run my-kafka-client --restart='Never' --image docker.io/bitnami/kafka:3.9.0-debian-12-r4 --namespace default --command -- sleep infinity
+#     kubectl cp --namespace default /path/to/client.properties my-kafka-client:/tmp/client.properties
+#     kubectl exec --tty -i my-kafka-client --namespace default -- bash
+
+#     PRODUCER:
+#         kafka-console-producer.sh \
+#             --producer.config /tmp/client.properties \
+#             --bootstrap-server my-kafka.default.svc.cluster.local:9092 \
+#             --topic test
+
+#     CONSUMER:
+#         kafka-console-consumer.sh \
+#             --consumer.config /tmp/client.properties \
+#             --bootstrap-server my-kafka.default.svc.cluster.local:9092 \
+#             --topic test \
+#             --from-beginning
+
+# WARNING: There are "resources" sections in the chart not set. Using "resourcesPreset" is not recommended for production. For production installations, please set the following values according to your workload needs:
+#   - controller.resources
+# +info https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+
+# ==================
+
+
 # Copyright Broadcom, Inc. All Rights Reserved.
 # SPDX-License-Identifier: APACHE-2.0
 
@@ -224,7 +267,8 @@ sasl:
   ## @param sasl.enabledMechanisms Comma-separated list of allowed SASL mechanisms when SASL listeners are configured. Allowed types: `PLAIN`, `SCRAM-SHA-256`, `SCRAM-SHA-512`, `OAUTHBEARER`
   ## NOTE: At the moment, Kafka Raft mode does not support SCRAM, that is why only PLAIN is configured.
   ##
-  enabledMechanisms: PLAIN,SCRAM-SHA-256,SCRAM-SHA-512
+  # ,SCRAM-SHA-256,SCRAM-SHA-512
+  enabledMechanisms: PLAIN
   ## @param sasl.interBrokerMechanism SASL mechanism for inter broker communication.
   ##
   interBrokerMechanism: PLAIN
