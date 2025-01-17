@@ -6,7 +6,7 @@
 # ==================
 
 # B1:
-# helm install kafka bitnami/kafka -f  https://raw.githubusercontent.com/phucng2017/k8s/refs/heads/main/k8s-helm-kafka/values_v8.yaml
+# helm install kafka bitnami/kafka -f  https://raw.githubusercontent.com/phucng2017/k8s/refs/heads/main/k8s-helm-kafka/values_v9.yaml
 
 #B2:
 # vi client.properties
@@ -69,7 +69,7 @@ controller:
       memory: 1024Mi
 
 zookeeper:
-  enabled: true
+  enabled: false
   replicaCount: 1
   persistence:
     enabled: true
