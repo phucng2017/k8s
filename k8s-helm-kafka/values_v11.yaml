@@ -68,36 +68,57 @@
 # helm uninstall kafka
 # =============
 
-controller:
-  replicaCount: 3
-  persistence:
-    enabled: true
-    size: 20Gi
-  resources:
-    requests:
-      cpu: 500Mi
-      memory: 512Mi
-    limits:
-      cpu: 1Gi
-      memory: 1024Mi
+# controller:
+#   replicaCount: 3
+#   persistence:
+#     enabled: true
+#     size: 20Gi
+#   resources:
+#     requests:
+#       cpu: 500Mi
+#       memory: 512Mi
+#     limits:
+#       cpu: 1Gi
+#       memory: 1024Mi
 
-zookeeper:
-  enabled: false
-  replicaCount: 1
-  persistence:
-    enabled: true
-    storageClass: ""
-    accessModes:
-      - ReadWriteOnce
-    size: 10Gi
-  resources:
-    requests:
-      cpu: 500Mi
-      memory: 512Mi
-    limits:
-      cpu: 1Gi
-      memory: 1024Mi
+# zookeeper:
+#   enabled: false
+#   replicaCount: 1
+#   persistence:
+#     enabled: true
+#     storageClass: ""
+#     accessModes:
+#       - ReadWriteOnce
+#     size: 10Gi
+#   resources:
+#     requests:
+#       cpu: 500Mi
+#       memory: 512Mi
+#     limits:
+#       cpu: 1Gi
+#       memory: 1024Mi
 
+# auth:
+#   clientProtocol: SASL_PLAINTEXT  # Sử dụng SASL_PLAINTEXT cho client
+#   interBrokerProtocol: SASL_PLAINTEXT  # Sử dụng SASL_PLAINTEXT giữa các brokers
+#   jaas:
+#     clientUsers:  # Danh sách users và passwords cho client
+#       - username: user1
+#         password: "9ZxnKEDFiM"
+#     interBrokerUser: admin  # User và password cho giao tiếp giữa các brokers
+#     interBrokerPassword: "admin-password"
+
+replicaCount: 3
+persistence:
+  enabled: true
+  size: 20Gi
+resources:
+  requests:
+    memory: "512Mi"
+    cpu: "500m"
+  limits:
+    memory: "1Gi"
+    cpu: "1"
 auth:
   clientProtocol: SASL_PLAINTEXT  # Sử dụng SASL_PLAINTEXT cho client
   interBrokerProtocol: SASL_PLAINTEXT  # Sử dụng SASL_PLAINTEXT giữa các brokers
@@ -107,24 +128,3 @@ auth:
         password: "9ZxnKEDFiM"
     interBrokerUser: admin  # User và password cho giao tiếp giữa các brokers
     interBrokerPassword: "admin-password"
-
-# replicaCount: 3
-# persistence:
-#   enabled: true
-#   size: 20Gi
-# resources:
-#   requests:
-#     memory: "512Mi"
-#     cpu: "500m"
-#   limits:
-#     memory: "1Gi"
-#     cpu: "1"
-# auth:
-#   clientProtocol: SASL_PLAINTEXT  # Sử dụng SASL_PLAINTEXT cho client
-#   interBrokerProtocol: SASL_PLAINTEXT  # Sử dụng SASL_PLAINTEXT giữa các brokers
-    # jaas:
-    #   clientUsers:  # Danh sách users và passwords cho client
-    #     - username: user1
-    #       password: "9ZxnKEDFiM"
-    #   interBrokerUser: admin  # User và password cho giao tiếp giữa các brokers
-    #   interBrokerPassword: "admin-password"
