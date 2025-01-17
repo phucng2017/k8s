@@ -6,7 +6,7 @@
 # ==================
 
 # B1:
-# helm install kafka bitnami/kafka -f  https://raw.githubusercontent.com/phucng2017/k8s/refs/heads/main/k8s-helm-kafka/values_v9.yaml
+# helm install kafka bitnami/kafka -f  https://raw.githubusercontent.com/phucng2017/k8s/refs/heads/main/k8s-helm-kafka/values_v10.yaml
 
 #B2:
 # vi client.properties
@@ -14,6 +14,13 @@
 # security.protocol=SASL_PLAINTEXT
 # sasl.mechanism=PLAIN
 # sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule required username="user1" password="$(kubectl get secret kafka-user-passwords --namespace default -o jsonpath='{.data.client-passwords}' | base64 -d | cut -d , -f 1)";
+
+# ==============
+# security.protocol=SASL_PLAINTEXT
+# sasl.mechanism=SCRAM-SHA-256
+# sasl.jaas.config=org.apache.kafka.common.security.scram.ScramLoginModule required \
+#     username="user1" \
+#     password="$(kubectl get secret kafka-user-passwords --namespace default -o jsonpath='{.data.client-passwords}' | base64 -d | cut -d , -f 1)";
 # =======
 
 # B3: 
@@ -30,14 +37,19 @@
 # kubectl cp --namespace default jaas.conf my-release-kafka-client:/tmp/jaas.conf
 # kubectl exec --tty -i kafka-client --namespace default -- bash
 
+# kubectl cp --namespace default c.pro kafka-client:/tmp/c.pro
+# kubectl cp --namespace default j.c kafka-client:/tmp/j.c
+# export KAFKA_OPTS="-Djava.security.auth.login.config=/tmp/j.c"
+# kafka-console-producer.sh --topic test-topic --producer.config /tmp/c.pro --bootstrap-server kafka.default.svc.cluster.local:9092
+
 # B5: Trong kafka_client:
 # export KAFKA_OPTS="-Djava.security.auth.login.config=/tmp/jaas.conf"
 # # kafka-console-producer.sh --bootstrap-server kafka.default.svc.cluster.local:9092 --topic test-topic --producer.config /tmp/client.properties
 #     # PRODUCER:
-#     #     kafka-console-producer.sh \
-#     #         --producer.config /tmp/client.properties \
-#     #         --bootstrap-server kafka.default.svc.cluster.local:9092 \
-#     #         --topic test
+        # kafka-console-producer.sh \
+        #     --producer.config /tmp/client.properties \
+        #     --bootstrap-server kafka.default.svc.cluster.local:9092 \
+        #     --topic test
 #     # CONSUMER:
 #         kafka-console-consumer.sh \
 #             --consumer.config /tmp/client.properties \
@@ -52,6 +64,7 @@
 # helm uninstall my-release
 # kubectl get svc
 # kubectl get pod
+
 # helm uninstall kafka
 # =============
 
@@ -88,6 +101,12 @@ zookeeper:
 auth:
   clientProtocol: SASL_PLAINTEXT  # Sử dụng SASL_PLAINTEXT cho client
   interBrokerProtocol: SASL_PLAINTEXT  # Sử dụng SASL_PLAINTEXT giữa các brokers
+  jaas:
+    clientUsers:  # Danh sách users và passwords cho client
+      - username: user1
+        password: "9ZxnKEDFiM"
+    interBrokerUser: admin  # User và password cho giao tiếp giữa các brokers
+    interBrokerPassword: "admin-password"
 
 # replicaCount: 3
 # persistence:
