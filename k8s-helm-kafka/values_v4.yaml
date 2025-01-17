@@ -1,6 +1,5 @@
 
-
-# helm install my-release -f https://raw.githubusercontent.com/phucng2017/k8s/refs/heads/main/k8s-helm-kafka/values_v2.yaml oci://registry-1.docker.io/bitnamicharts/kafka
+# helm install my-release -f https://raw.githubusercontent.com/phucng2017/k8s/refs/heads/main/k8s-helm-kafka/values_v3.yaml oci://registry-1.docker.io/bitnamicharts/kafka --version 28.0.4
 # helm install my-release oci://registry-1.docker.io/bitnamicharts/kafka
 # helm uninstall my-release
 # kubectl get svc

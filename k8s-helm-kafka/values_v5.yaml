@@ -1,0 +1,24 @@
+replicaCount: 3
+persistence:
+  enabled: true
+  size: 20Gi
+zookeeper:
+  replicaCount: 3
+  persistence:
+    enabled: true
+    size: 10Gi
+resources:
+  requests:
+    memory: "512Mi"
+    cpu: "500m"
+  limits:
+    memory: "1Gi"
+    cpu: "1"
+auth:
+  clientProtocol: sasl
+  interBrokerProtocol: sasl
+  jaas:
+    clientUser: user1
+    clientPassword: "9ZxnKEDFiM"
+    interBrokerUser: admin
+    interBrokerPassword: "admin-password"
