@@ -41,7 +41,7 @@ spec:
             - name: KAFKA_SASL_USERNAME
               value: "user1"                # Tên người dùng SASL
             - name: KAFKA_SASL_PASSWORD
-              value: "ioyWIoVAvb"           # Mật khẩu SASL
+              value: "OMcdJfbMja"           # Mật khẩu SASL
           resources:
             requests:
               memory: "256Mi"
