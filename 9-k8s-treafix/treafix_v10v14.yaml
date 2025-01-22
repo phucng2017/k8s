@@ -1,0 +1,55 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gateway-ingress
+  namespace: gateway
+  annotations:
+    # Sử dụng Traefik Ingress Controller
+    "traefik.ingress.kubernetes.io/router.entrypoints": "web"
+spec:
+  rules:
+  - host: mydomain.com  # Thay "kubeapps.yourdomain.com" bằng tên miền thực tế
+    http:
+      paths:
+      - path: /api
+        pathType: Exact
+        backend:
+          service:
+            name: kubeapps
+            port:
+              number: 80
+      # - path: /appsexactly
+      #   pathType: Exact
+      #   backend:
+      #     service:
+      #       name: kubeapps
+      #       port:
+      #         number: 80
+      # - path: /app
+      #   pathType: Prefix
+      #   backend:
+      #     service:
+      #       name: kubeapps
+      #       port:
+      #         number: 80
+      # - path: /kas
+      #   pathType: Prefix
+      #   backend:
+      #     service:
+      #       name: kubeapps
+      #       port:
+      #         number: 80
+      # - path: /mon
+      #   pathType: Exact
+      #   backend:
+      #     service:
+      #       name: prometheus-grafana
+      #       port:
+      #         number: 80
+      # - path: /monpre
+      #   pathType: Prefix
+      #   backend:
+      #     service:
+      #       name: prometheus-grafana
+      #       port:
+      #         number: 80
