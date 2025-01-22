@@ -2,7 +2,7 @@
 
 # vi values-redpanda-v2.yaml
 #(voi noi dung ben duoi)
-# kubectl apply -f values-redpanda-v2.yaml 
+# kubectl apply -f https://raw.githubusercontent.com/phucng2017/k8s/refs/heads/main/4-k8s-kafka-webui-30006/webui_kafka_v2.yml
 # kubectl delete -f values-redpanda-v2.yaml 
 
 # PORT: 30006
@@ -26,7 +26,8 @@ spec:
     spec:
       containers:
         - name: redpanda-console
-          image: docker.redpanda.com/redpandadata/console:latest
+          # image: docker.redpanda.com/redpandadata/console:latest
+          image: redpandadata/console:latest
           ports:
             - containerPort: 8080
           env:
