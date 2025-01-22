@@ -50,12 +50,11 @@
 #             --producer.config /tmp/c.pro \
 #             --bootstrap-server kafka-topics.sh --version \
 #             --topic test
-
-kafka-console-consumer.sh \
-            --consumer.config /tmp/c.pro \
-            --bootstrap-server kafka.default.svc.cluster.local:9092 \
-            --topic test \
-            --from-beginning
+# kafka-console-consumer.sh \
+#             --consumer.config /tmp/c.pro \
+#             --bootstrap-server kafka.default.svc.cluster.local:9092 \
+#             --topic test \
+#             --from-beginning
 
 # B5: Trong kafka_client:
 # export KAFKA_OPTS="-Djava.security.auth.login.config=/tmp/jaas.conf"

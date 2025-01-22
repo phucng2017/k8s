@@ -1,0 +1,8 @@
+backend:
+  type: loki
+  loki:
+    host: "http://loki:3100/loki/api/v1/push"
+
+input:
+  kubernetes:
+    enabled: true
