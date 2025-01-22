@@ -10,12 +10,13 @@
 
 #B2:
 # LAY PASSWORD:
-# kubectl get secret kafka-user-passwords --namespace default -o jsonpath='{.data.client-passwords}' | base64 -d | cut -d , -f 1
+# kubectl get secret kafka-user-passwords --namespace kafka -o jsonpath='{.data.client-passwords}' | base64 -d | cut -d , -f 1
+# pass: OMcdJfbMja
 # vi client.properties
 # =======
 # security.protocol=SASL_PLAINTEXT
 # sasl.mechanism=PLAIN
-# sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule required username="user1" password="$(kubectl get secret kafka-user-passwords --namespace default -o jsonpath='{.data.client-passwords}' | base64 -d | cut -d , -f 1)";
+# sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule required username="user1" password="OMcdJfbMja";
 
 # ==============
 # vi c.pro
@@ -28,58 +29,30 @@
 
 # B3: 
 # vi jaas.conf
+# -------
+# Lấy password ở bước 2.
 # KafkaClient {
 #   org.apache.kafka.common.security.plain.PlainLoginModule required
 #   username="user1"
-#   password="$(kubectl get secret kafka-user-passwords --namespace default -o jsonpath='{.data.client-passwords}' | base64 -d | cut -d , -f 1)";
+#   password="OMcdJfbMja";
 # };
 
 
-# B4:
-# kubectl run kafka-client --restart='Never' --image docker.io/bitnami/kafka:3.9.0-debian-12-r4 --namespace default --command -- sleep infinity
-# kubectl cp --namespace default client.properties my-release-kafka-client:/tmp/client.properties
-# kubectl cp --namespace default jaas.conf my-release-kafka-client:/tmp/jaas.conf
-# kubectl exec --tty -i kafka-client --namespace default -- bash
+# B4: TESTING
+# kubectl run kafka-client --restart='Never' --image docker.io/bitnami/kafka:3.9.0-debian-12-r4 --namespace kafka --command -- sleep infinity
+# kubectl cp --namespace kafka client.properties kafka-client:/tmp/client.properties
+# kubectl cp --namespace kafka jaas.conf kafka-client:/tmp/jaas.conf
 
+# ===== VAO CLIENT TESTING:
+# kubectl exec --tty -i kafka-client --namespace kafka -- bash
+# export KAFKA_OPTS="-Djava.security.auth.login.config=/tmp/jaas.conf"
+# kafka-console-producer.sh --topic test-topic --producer.config /tmp/client.properties --bootstrap-server kafka.kafka.svc.cluster.local:9092
+# kafka-console-consumer.sh --consumer.config /tmp/client.properties --bootstrap-server kafka.kafka.svc.cluster.local:9092 --topic test-topic --from-beginning
+
+# ===== TESTING CÁCH KHÁC:
 # kubectl cp --namespace default c.pro kafka-client:/tmp/c.pro
 # kubectl cp --namespace default j.c kafka-client:/tmp/j.c
 # kubectl exec --tty -i kafka-client --namespace default -- bash
-# export KAFKA_OPTS="-Djava.security.auth.login.config=/tmp/j.c"
-# kafka-console-producer.sh --topic test-topic --producer.config /tmp/c.pro --bootstrap-server kafka.default.svc.cluster.local:9092
-# kafka-console-producer.sh \
-#             --producer.config /tmp/c.pro \
-#             --bootstrap-server kafka-topics.sh --version \
-#             --topic test
-# kafka-console-consumer.sh \
-#             --consumer.config /tmp/c.pro \
-#             --bootstrap-server kafka.default.svc.cluster.local:9092 \
-#             --topic test \
-#             --from-beginning
-
-# B5: Trong kafka_client:
-# export KAFKA_OPTS="-Djava.security.auth.login.config=/tmp/jaas.conf"
-# # kafka-console-producer.sh --bootstrap-server kafka.default.svc.cluster.local:9092 --topic test-topic --producer.config /tmp/client.properties
-#     # PRODUCER:
-        # kafka-console-producer.sh \
-        #     --producer.config /tmp/c.pro \
-        #     --bootstrap-server kafka-topics.sh --version \
-        #     --topic test
-#     # CONSUMER:
-        # kafka-console-consumer.sh \
-        #     --consumer.config /tmp/client.properties \
-        #     --bootstrap-server kafka.default.svc.cluster.local:9092 \
-        #     --topic test \
-        #     --from-beginning
-
-# =============
-# Tham thao: 
-# helm install my-release -f https://raw.githubusercontent.com/phucng2017/k8s/refs/heads/main/k8s-helm-kafka/values_v3.yaml oci://registry-1.docker.io/bitnamicharts/kafka --version 28.0.4
-# helm install my-release oci://registry-1.docker.io/bitnamicharts/kafka
-# helm uninstall my-release
-# kubectl get svc
-# kubectl get pod
-
-# helm uninstall kafka
 # =============
 
 # controller:
