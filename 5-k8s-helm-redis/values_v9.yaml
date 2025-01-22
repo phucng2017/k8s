@@ -10,12 +10,34 @@
 #==================================================
 # values_v7.yaml
 
+
 auth:
   password: "mysecretpassword"
 
 global:
   redis:
     password: "mysecretpassword" # Mật khẩu cho Redis (bạn có thể chỉnh sửa)
+    
+image:
+  registry: docker.io
+  repository: bitnami/redis
+  tag: 7.4.2-debian-12-r0
+  digest: ""
+  ## Specify a imagePullPolicy
+  ## ref: https://kubernetes.io/docs/concepts/containers/images/#pre-pulled-images
+  ##
+  pullPolicy: IfNotPresent
+  ## Optionally specify an array of imagePullSecrets.
+  ## Secrets must be manually created in the namespace.
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+  ## e.g:
+  ## pullSecrets:
+  ##   - myRegistryKeySecretName
+  ##
+  pullSecrets: []
+  ## Enable debug mode
+  ##
+  debug: false
 
 master:
   service:
