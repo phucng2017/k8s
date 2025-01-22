@@ -6,7 +6,7 @@
 # ==================
 
 # B1:
-# helm install kafka bitnami/kafka -f  https://raw.githubusercontent.com/phucng2017/k8s/refs/heads/main/k8s-helm-kafka/values_v12.yaml --create-namespace --namespace kafka
+# helm install kafka bitnami/kafka -f  https://raw.githubusercontent.com/phucng2017/k8s/refs/heads/main/3-k8s-helm-kafka/values_v12.yaml --create-namespace --namespace kafka
 
 #B2:
 # LAY PASSWORD:
