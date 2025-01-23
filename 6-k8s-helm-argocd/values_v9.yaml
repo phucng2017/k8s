@@ -1,0 +1,30 @@
+helm install my-release oci://registry-1.docker.io/bitnamicharts/argo-cd
+-f values.yaml
+
+helm install argocd  oci://registry-1.docker.io/bitnamicharts/argo-cd  --namespace cicd --create-namespace
+
+--TESTING:
+
+1. Access your Argo CD installation:
+  Execute the following commands:
+
+  kubectl port-forward --namespace cicd svc/argocd-argo-cd-server 8085:80 &
+  export URL=http://127.0.0.1:8080/
+  echo "Argo CD URL: http://127.0.0.1:8080/"
+
+2. Execute the following commands to obtain the Argo CD credentials:
+
+  echo "Username: \"admin\""
+  echo "Password: $(kubectl -n cicd get secret argocd-secret -o jsonpath="{.data.clearPassword}" | base64 -d)"
+
+WARNING: There are "resources" sections in the chart not set. Using "resourcesPreset" is not recommended for production. For production installations, please set the following values according to your workload needs:
+  - controller.resources
+  - repoServer.resources
+  - server.resources
++info https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+
+
+
+UNINSTALL:
+cu: 
+kubectl delete -n argocd argocd
