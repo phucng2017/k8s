@@ -15,8 +15,8 @@ spec:
         pathType: Exact
         backend:
           service:
-            name: backend-demo-spring.backend
-            # namespace: backend
+            name: backend-demo-spring
+            namespace: backend
             port:
               number: 80
       # - path: /appsexactly
