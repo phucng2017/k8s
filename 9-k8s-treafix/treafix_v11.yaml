@@ -11,11 +11,12 @@ spec:
   - host: mydomain.com  # Thay "kubeapps.yourdomain.com" bằng tên miền thực tế
     http:
       paths:
-      - path: /api
+      - path: /backenddemospring
         pathType: Exact
         backend:
           service:
-            name: kubeapps
+            name: backend-demo-spring.backend
+            # namespace: backend
             port:
               number: 80
       # - path: /appsexactly
