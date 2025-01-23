@@ -6,6 +6,8 @@ metadata:
   annotations:
     # Sử dụng Traefik Ingress Controller
     "traefik.ingress.kubernetes.io/router.entrypoints": "web"
+    # Thêm annotation traefik.ingress.kubernetes.io/rule-type: PathPrefixStrip để loại bỏ phần /backenddemospring khỏi đường dẫn:
+    "traefik.ingress.kubernetes.io/rule-type": "PathPrefixStrip"
 spec:
   rules:
   - host: mydomain.com  # Thay "kubeapps.yourdomain.com" bằng tên miền thực tế
