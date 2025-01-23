@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: gateway-ingress
-  namespace: gateway
+  namespace: backend
   annotations:
     # Sử dụng Traefik Ingress Controller
     "traefik.ingress.kubernetes.io/router.entrypoints": "web"
@@ -16,7 +16,7 @@ spec:
         backend:
           service:
             name: backend-demo-spring
-            namespace: backend
+            # namespace: backend
             port:
               number: 80
       # - path: /appsexactly
