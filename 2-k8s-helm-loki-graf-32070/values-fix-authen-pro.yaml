@@ -1,0 +1,40 @@
+---
+prometheus:
+  prometheusSpec:
+    scrapeInterval: 5s
+    externalLabels:
+      cluster: "k8s-gpu-192-168-160-41"
+    replicas: 1
+    #additionalScrapeConfigs: |
+    #  - job_name: "ceph-exporter"
+    #    static_configs:
+    #      - targets: ['rook-ceph-mgr.rook-ceph.svc.cluster.local:9283']
+grafana:
+  sidecar:
+    datasources:
+      enabled: true
+      label: grafana_datasource
+      searchNamespace: ALL
+      defaultDatasourceEnabled: false
+  image: 10.2.5
+  additionalDataSources:
+    - name: Prometheus
+      type: prometheus
+      url: http://prometheus-kube-prometheus-prometheus.monitoring:9090/
+      basicAuth: false
+      basicAuthUser:
+      basicAuthPassword:
+      isDefault: true
+      editable: true
+      jsonData:
+        graphiteVersion: "1.1"
+        tlsAuth: false
+        tlsAuthWithCACert: false
+    - name: Loki
+      type: loki
+      url: http://loki.monitoring:3100/
+      basicAuth: false
+      basicAuthUser:
+      # secureJsonData:
+      #   basicAuthPassword: test_password
+      access: proxy

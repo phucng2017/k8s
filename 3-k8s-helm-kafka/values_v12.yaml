@@ -1,0 +1,121 @@
+# ==================
+# export KUBECONFIG=~/.kube/config
+# mkdir ~/.kube 2> /dev/null
+# sudo k3s kubectl config view --raw > "$KUBECONFIG"
+# chmod 600 "$KUBECONFIG"
+# ==================
+
+# B1:
+# helm install kafka bitnami/kafka -f  https://raw.githubusercontent.com/phucng2017/k8s/refs/heads/main/3-k8s-helm-kafka/values_v12.yaml --create-namespace --namespace kafka
+
+#B2:
+# LAY PASSWORD:
+# kubectl get secret kafka-user-passwords --namespace kafka -o jsonpath='{.data.client-passwords}' | base64 -d | cut -d , -f 1
+# pass: OMcdJfbMja
+# vi client.properties
+# =======
+# security.protocol=SASL_PLAINTEXT
+# sasl.mechanism=PLAIN
+# sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule required username="user1" password="OMcdJfbMja";
+
+# ==============
+# vi c.pro
+# security.protocol=SASL_PLAINTEXT
+# sasl.mechanism=SCRAM-SHA-256
+# sasl.jaas.config=org.apache.kafka.common.security.scram.ScramLoginModule required \
+#     username="user1" \
+#     password="$(kubectl get secret kafka-user-passwords --namespace default -o jsonpath='{.data.client-passwords}' | base64 -d | cut -d , -f 1)";
+# =======
+
+# B3: 
+# vi jaas.conf
+# -------
+# Lấy password ở bước 2.
+# KafkaClient {
+#   org.apache.kafka.common.security.plain.PlainLoginModule required
+#   username="user1"
+#   password="OMcdJfbMja";
+# };
+
+
+# B4: TESTING
+# kubectl run kafka-client --restart='Never' --image docker.io/bitnami/kafka:3.9.0-debian-12-r4 --namespace kafka --command -- sleep infinity
+# kubectl cp --namespace kafka client.properties kafka-client:/tmp/client.properties
+# kubectl cp --namespace kafka jaas.conf kafka-client:/tmp/jaas.conf
+
+# ===== VAO CLIENT TESTING:
+# kubectl exec --tty -i kafka-client --namespace kafka -- bash
+# export KAFKA_OPTS="-Djava.security.auth.login.config=/tmp/jaas.conf"
+# kafka-console-producer.sh --topic test-topic --producer.config /tmp/client.properties --bootstrap-server kafka.kafka.svc.cluster.local:9092
+# kafka-console-consumer.sh --consumer.config /tmp/client.properties --bootstrap-server kafka.kafka.svc.cluster.local:9092 --topic test-topic --from-beginning
+
+# ===== TESTING CÁCH KHÁC:
+# kubectl cp --namespace default c.pro kafka-client:/tmp/c.pro
+# kubectl cp --namespace default j.c kafka-client:/tmp/j.c
+# kubectl exec --tty -i kafka-client --namespace default -- bash
+# =============
+
+# controller:
+#   replicaCount: 3
+#   persistence:
+#     enabled: true
+#     size: 20Gi
+#   resources:
+#     requests:
+#       cpu: 500Mi
+#       memory: 512Mi
+#     limits:
+#       cpu: 1Gi
+#       memory: 1024Mi
+
+# zookeeper:
+#   enabled: false
+#   replicaCount: 1
+#   persistence:
+#     enabled: true
+#     storageClass: ""
+#     accessModes:
+#       - ReadWriteOnce
+#     size: 10Gi
+#   resources:
+#     requests:
+#       cpu: 500Mi
+#       memory: 512Mi
+#     limits:
+#       cpu: 1Gi
+#       memory: 1024Mi
+
+# auth:
+#   clientProtocol: SASL_PLAINTEXT  # Sử dụng SASL_PLAINTEXT cho client
+#   interBrokerProtocol: SASL_PLAINTEXT  # Sử dụng SASL_PLAINTEXT giữa các brokers
+#   jaas:
+#     clientUsers:  # Danh sách users và passwords cho client
+#       - username: user1
+#         password: "9ZxnKEDFiM"
+#     interBrokerUser: admin  # User và password cho giao tiếp giữa các brokers
+#     interBrokerPassword: "admin-password"
+
+
+#========
+# CÁCH 2: CHẠY OK
+#========
+replicaCount: 3
+persistence:
+  enabled: true
+  size: 20Gi
+resources:
+  requests:
+    memory: "512Mi"
+    cpu: "500m"
+  limits:
+    memory: "1Gi"
+    cpu: "1"
+auth:
+  clientProtocol: SASL_PLAINTEXT  # Sử dụng SASL_PLAINTEXT cho client
+  interBrokerProtocol: SASL_PLAINTEXT  # Sử dụng SASL_PLAINTEXT giữa các brokers
+  jaas:
+    clientUsers:  # Danh sách users và passwords cho client
+      - username: user1
+        password: "9ZxnKEDFiM"
+    interBrokerUser: admin  # User và password cho giao tiếp giữa các brokers
+    interBrokerPassword: "admin-password"
