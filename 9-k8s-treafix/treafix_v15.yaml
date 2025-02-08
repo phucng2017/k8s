@@ -1,0 +1,58 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gateway-ingress
+  namespace: backend
+  annotations:
+    # Sử dụng Traefik Ingress Controller
+    "traefik.ingress.kubernetes.io/router.entrypoints": "web"
+    # Thêm annotation traefik.ingress.kubernetes.io/rule-type: PathPrefixStrip để loại bỏ phần /backenddemospring khỏi đường dẫn:
+    "traefik.ingress.kubernetes.io/rule-type": "PathPrefixStrip"
+spec:
+  rules:
+  - host: mydomain.com  # Thay "kubeapps.yourdomain.com" bằng tên miền thực tế
+    http:
+      paths:
+      - path: /backenddemospring
+        pathType: Prefix
+        backend:
+          service:
+            name: backend-demo-spring
+            # namespace: backend
+            port:
+              number: 80
+      # - path: /appsexactly
+      #   pathType: Exact
+      #   backend:
+      #     service:
+      #       name: kubeapps
+      #       port:
+      #         number: 80
+      # - path: /app
+      #   pathType: Prefix
+      #   backend:
+      #     service:
+      #       name: kubeapps
+      #       port:
+      #         number: 80
+      # - path: /kas
+      #   pathType: Prefix
+      #   backend:
+      #     service:
+      #       name: kubeapps
+      #       port:
+      #         number: 80
+      # - path: /mon
+      #   pathType: Exact
+      #   backend:
+      #     service:
+      #       name: prometheus-grafana
+      #       port:
+      #         number: 80
+      # - path: /monpre
+      #   pathType: Prefix
+      #   backend:
+      #     service:
+      #       name: prometheus-grafana
+      #       port:
+      #         number: 80
